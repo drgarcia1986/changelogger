@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io/fs"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -11,6 +12,12 @@ import (
 )
 
 const PLACEHOLDER = "[changelogger-notes]::"
+
+var (
+	readFile   func(string) ([]byte, error)            = ioutil.ReadFile
+	writeFile  func(string, []byte, fs.FileMode) error = ioutil.WriteFile
+	removeFile func(string) error                      = os.Remove
+)
 
 func writeHeader(version string, notesBuilder *strings.Builder) {
 	fmt.Fprintf(notesBuilder, "%s\n\n", PLACEHOLDER)
@@ -45,8 +52,7 @@ func getEntries(entriesDir string) (map[string][]string, error) {
 		}
 
 		entries[entryType] = append(entryList, string(fileContent))
-
-		return os.Remove(path)
+		return removeFile(path)
 	})
 
 	if err != nil {
@@ -79,14 +85,13 @@ func buildReleaseNotes(version, entriesDir string) (string, error) {
 }
 
 func updateChangelog(path, releaseNotes string) error {
-	fileContent, err := ioutil.ReadFile(path)
+	fileContent, err := readFile(path)
 	if err != nil {
 		return err
 	}
 
 	newContent := strings.Replace(string(fileContent), PLACEHOLDER, releaseNotes, 1)
-
-	return ioutil.WriteFile(path, []byte(newContent), 0)
+	return writeFile(path, []byte(newContent), 0)
 }
 
 func main() {
