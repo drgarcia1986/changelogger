@@ -1,0 +1,23 @@
+name: Main and Pull Request Validators
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go 1.16
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.16
+
+      - name: Check out source code
+        uses: actions/checkout@v1
+
+      - name: Test
+        run: go test -v .
