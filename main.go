@@ -22,6 +22,7 @@ func getEntries(entriesDir string) (map[string][]string, error) {
 		"added":   []string{},
 		"changed": []string{},
 		"removed": []string{},
+		"fixed":   []string{},
 	}
 
 	err := filepath.Walk(entriesDir, func(path string, fi os.FileInfo, walkErr error) error {

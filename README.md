@@ -23,6 +23,7 @@ changelogger will search for files on the directory of changelog entries (flag `
 * `.added`
 * `.changed`
 * `.removed`
+* `.fixed`
 
 Each file represents an entry on changelog and the extension defines which session the entry will be added to.
 
