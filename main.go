@@ -103,9 +103,9 @@ func main() {
 
 	releaseNotes, err := buildReleaseNotes(*version, *entriesDir)
 	if err != nil {
-		panic(err)
+		fmt.Printf("Error building release notes: %v\n", err)
 	}
 	if err := updateChangelog(*changelogPath, releaseNotes); err != nil {
-		panic(err)
+		fmt.Printf("Error updating changelog file: %v\n", err)
 	}
 }
