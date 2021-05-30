@@ -23,7 +23,7 @@ jobs:
       - name: Create binaries
         env:
           TAG: ${{ steps.vars.outputs.tag }}
-        run: ./.relase.sh $TAG
+        run: ./.release.sh $TAG
 
       - name: Release
         uses: softprops/action-gh-release@v1
