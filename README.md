@@ -5,10 +5,12 @@ A changelog file generator heavily inspired on [towncrier](https://github.com/tw
 I'm looking for an alternative to towncrier that doesn't require a Python environment,
 so I decided to build one with only basic features.
 
-## Install from source
+## Install
+From source
 ```
 $ go get github.com/drgarcia1986/changelogger
 ```
+Or get the binary from [release](https://github.com/drgarcia1986/changelogger/releases) page.
 
 ## How it works?
 ```
