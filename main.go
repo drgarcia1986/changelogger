@@ -14,6 +14,7 @@ import (
 const PLACEHOLDER = "[changelogger-notes]::"
 
 var (
+	Version    string
 	readFile   func(string) ([]byte, error)            = ioutil.ReadFile
 	writeFile  func(string, []byte, fs.FileMode) error = ioutil.WriteFile
 	removeFile func(string) error                      = os.Remove
@@ -95,18 +96,22 @@ func updateChangelog(path, releaseNotes string) error {
 }
 
 func main() {
-	version := flag.String("version", "", "The release version")
+	ver := flag.String("version", "", "The release version")
 	entriesDir := flag.String("dir", "", "Directory of changelog entries")
 	changelogPath := flag.String("path", "", "Path of the changelog file")
 
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Usage of %s (version: %s):\n", os.Args[0], Version)
+		flag.PrintDefaults()
+	}
 	flag.Parse()
 
-	if *version == "" || *entriesDir == "" || *changelogPath == "" {
+	if *ver == "" || *entriesDir == "" || *changelogPath == "" {
 		flag.Usage()
 		return
 	}
 
-	releaseNotes, err := buildReleaseNotes(*version, *entriesDir)
+	releaseNotes, err := buildReleaseNotes(*ver, *entriesDir)
 	if err != nil {
 		fmt.Printf("Error building release notes: %v\n", err)
 	}
